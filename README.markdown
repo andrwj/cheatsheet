@@ -1,5 +1,15 @@
 [![MELPA](https://melpa.org/packages/cheatsheet-badge.svg)](https://melpa.org/#/cheatsheet)
 
+
+## This is forked version and here is what modified by @andrwj
+
+* Key has been changed to bar symbol (|) for my own conveniant, so that it can be open/close by same key.
+* Now `*cheatsheet*` buffer does not open twice. (I think it was kind of bug)
+
+
+----
+
+
 ## Cheatsheet.el
 
 Cheatsheet.el is a tool for creating your own Emacs cheatsheet.
@@ -56,3 +66,6 @@ Show buffer with your cheatsheet. Can be closed via `C-q` key.
 # Enjoy using cheatsheet.el
 
 P.S. Thanks [@rmuslimov](https://github.com/rmuslimov) for code review and elisp help!
+
+
+

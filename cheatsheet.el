@@ -134,19 +134,32 @@
           cheats))
 
 ;;;###autoload
+(defun cheatsheet-close ()
+  "Close cheatsheet window"
+  (interactive)
+  (switch-to-buffer "*cheatsheet*")
+  (define-key evil-normal-state-map (kbd "|") 'cheatsheet-show)
+  (kill-buffer-and-window)
+  )
+
+;;;###autoload
+
 (defun cheatsheet-show ()
   "Create buffer and show cheatsheet."
   (interactive)
+  ;; prevent reenterence
+  (define-key evil-normal-state-map (kbd "|") nil)
+  (define-key evil-normal-state-map (kbd "|") 'cheatsheet-close)
   (switch-to-buffer-other-window "*cheatsheet*")
   (cheatsheet-mode)
   (erase-buffer)
   (insert (cheatsheet--format))
-  (setq buffer-read-only t))
+  (setq buffer-read-only t)
+  )
 
 (define-derived-mode cheatsheet-mode fundamental-mode "Cheat Sheet"
   "Set major mode for viewing cheat sheets.")
 
-(define-key cheatsheet-mode-map (kbd "C-q") 'kill-buffer-and-window)
 
 (provide 'cheatsheet)
 ;;; cheatsheet.el ends here
