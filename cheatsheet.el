@@ -133,13 +133,27 @@
                      (append `(:group ,group) cheat)))
           cheats))
 
+
+(defun toggle-cheatsheet-window ()
+  (interactive)
+  (if (get 'is-showing-cheatsheet-window 'cheatsheet-state)
+			(progn
+				(cheatsheet-close)
+				(put 'is-showing-cheatsheet-window 'cheatsheet-state nil)
+				)
+    (progn
+			(cheatsheet-show)
+			(put 'is-showing-cheatsheet-window 'cheatsheet-state t)
+			)))
+
 ;;;###autoload
 (defun cheatsheet-close ()
   "Close cheatsheet window"
   (interactive)
-  (switch-to-buffer "*cheatsheet*")
-  (define-key evil-normal-state-map (kbd "|") 'cheatsheet-show)
+  (switch-to-buffer-other-window "*cheatsheet*")
   (kill-buffer-and-window)
+	;; TODO: awesome-tab이 설치되어 있지 않으면 (previous-buffer)로 이동할 것
+	(awesome-tab-backward-group)
   )
 
 ;;;###autoload
@@ -147,19 +161,18 @@
 (defun cheatsheet-show ()
   "Create buffer and show cheatsheet."
   (interactive)
-  ;; prevent reenterence
-  (define-key evil-normal-state-map (kbd "|") nil)
-  (define-key evil-normal-state-map (kbd "|") 'cheatsheet-close)
   (switch-to-buffer-other-window "*cheatsheet*")
   (cheatsheet-mode)
   (erase-buffer)
   (insert (cheatsheet--format))
+	(goto-char 0)
   (setq buffer-read-only t)
   )
 
 (define-derived-mode cheatsheet-mode fundamental-mode "Cheat Sheet"
   "Set major mode for viewing cheat sheets.")
 
+(define-key cheatsheet-mode-map (kbd "|") 'toggle-cheatsheet-window)
 
 (provide 'cheatsheet)
 ;;; cheatsheet.el ends here
