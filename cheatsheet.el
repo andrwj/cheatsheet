@@ -133,6 +133,23 @@
                      (append `(:group ,group) cheat)))
           cheats))
 
+(defun change-buffer-until-normal (change-fn)
+  "call change-fn until met normal-type buffer"
+  (let (current (buffer-name))
+    (funcall change-fn)
+    (while (and (string-prefix-p "*" (buffer-name))
+                (not (eq current (buffer-name))))
+      (funcall change-fn))))
+
+(defun switch-to-next-normal-buffer ()
+  "switch to next-normal-buffer"
+  (interactive)
+  (change-buffer-until-normal 'next-buffer))
+
+(defun switch-to-previous-normal-buffer ()
+  "switch to next-normal-buffer"
+  (interactive)
+  (change-buffer-until-normal 'previous-buffer))
 
 (defun toggle-cheatsheet-window ()
   (interactive)
@@ -152,8 +169,7 @@
   (interactive)
   (switch-to-buffer-other-window "*cheatsheet*")
   (kill-buffer-and-window)
-	;; TODO: awesome-tab이 설치되어 있지 않으면 (previous-buffer)로 이동할 것
-	(awesome-tab-backward-group)
+  (switch-to-previous-normal-buffer)
   )
 
 ;;;###autoload
