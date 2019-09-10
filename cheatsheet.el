@@ -149,6 +149,8 @@
 (defun cheatsheet-close ()
   "Close cheatsheet window"
   (interactive)
+  (if (not (string-equal "*cheatsheet*" (buffer-name)))
+      (setq buffer-to-return (buffer-name)))
   (switch-to-buffer-other-window "*cheatsheet*")
   (kill-buffer-and-window)
   (switch-to-buffer buffer-to-return)
