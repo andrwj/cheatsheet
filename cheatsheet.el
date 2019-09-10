@@ -133,24 +133,6 @@
                      (append `(:group ,group) cheat)))
           cheats))
 
-(defun change-buffer-until-normal (change-fn)
-  "call change-fn until met normal-type buffer"
-  (let (current (buffer-name))
-    (funcall change-fn)
-    (while (and (string-prefix-p "*" (buffer-name))
-                (not (eq current (buffer-name))))
-      (funcall change-fn))))
-
-(defun switch-to-next-normal-buffer ()
-  "switch to next-normal-buffer"
-  (interactive)
-  (change-buffer-until-normal 'next-buffer))
-
-(defun switch-to-previous-normal-buffer ()
-  "switch to next-normal-buffer"
-  (interactive)
-  (change-buffer-until-normal 'previous-buffer))
-
 (defun toggle-cheatsheet-window ()
   (interactive)
   (if (get 'is-showing-cheatsheet-window 'cheatsheet-state)
@@ -169,7 +151,7 @@
   (interactive)
   (switch-to-buffer-other-window "*cheatsheet*")
   (kill-buffer-and-window)
-  (switch-to-previous-normal-buffer)
+  (switch-to-buffer buffer-to-return)
   )
 
 ;;;###autoload
@@ -177,6 +159,7 @@
 (defun cheatsheet-show ()
   "Create buffer and show cheatsheet."
   (interactive)
+  (setq buffer-to-return (buffer-name))
   (switch-to-buffer-other-window "*cheatsheet*")
   (cheatsheet-mode)
   (erase-buffer)
