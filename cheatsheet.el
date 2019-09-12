@@ -135,14 +135,14 @@
 
 (defun toggle-cheatsheet-window ()
   (interactive)
-  (if (get 'is-showing-cheatsheet-window 'cheatsheet-state)
+  (if (eq cheatsheet-state t)
 			(progn
 				(cheatsheet-close)
-				(put 'is-showing-cheatsheet-window 'cheatsheet-state nil)
+				(setq cheatsheet-state nil)
 				)
     (progn
 			(cheatsheet-show)
-			(put 'is-showing-cheatsheet-window 'cheatsheet-state t)
+			(setq cheatsheet-state t)
 			)))
 
 ;;;###autoload
